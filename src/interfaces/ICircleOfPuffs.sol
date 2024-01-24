@@ -2,5 +2,5 @@
 pragma solidity >=0.8.23;
 
 interface ICircleOfPuffs {
-    function initialize(string calldata name, string calldata symbol) external;
+    function initialize(address firstPuffer, string calldata name_, string calldata symbol_) external;
 }

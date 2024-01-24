@@ -3,7 +3,9 @@ pragma solidity >=0.8.23;
 
 import { ERC721 } from "@solady/tokens/ERC721.sol";
 
-contract CircleOfPuffs is ERC721 {
+import { ICircleOfPuffs } from "./interfaces/ICircleOfPuffs.sol";
+
+contract CircleOfPuffs is ERC721, ICircleOfPuffs {
     bool private initialized;
 
     string private _name;
@@ -13,7 +15,6 @@ contract CircleOfPuffs is ERC721 {
 
     uint256 private _nextTokenId;
 
-    error TokenDoesNotExist();
     error AlreadyInitialized();
     error UnauthorizedPuff();
     error UnlawfulDoublePuffAttempted();
