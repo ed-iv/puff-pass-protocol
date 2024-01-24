@@ -18,6 +18,7 @@ contract CircleOfPuffs is ERC721, ICircleOfPuffs {
     error AlreadyInitialized();
     error UnauthorizedPuff();
     error UnlawfulDoublePuffAttempted();
+    error AddressZeroNoPuff();
 
     modifier onlyPuffer() {
         if (msg.sender != currPuffer) revert UnauthorizedPuff();
@@ -46,10 +47,15 @@ contract CircleOfPuffs is ERC721, ICircleOfPuffs {
     }
 
     function mint(address to, string calldata uri, address nextPuffer) external onlyPuffer {
+        if (nextPuffer == address(0)) revert AddressZeroNoPuff();
         if (nextPuffer == currPuffer) revert UnlawfulDoublePuffAttempted();
         uint256 tokenId = ++_nextTokenId;
         _mint(to, tokenId);
         _tokenURIs[tokenId] = uri;
         currPuffer = nextPuffer;
+    }
+
+    function totalSupply() external view returns (uint256) {
+        return _nextTokenId;
     }
 }
