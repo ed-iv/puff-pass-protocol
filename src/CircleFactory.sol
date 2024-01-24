@@ -11,18 +11,25 @@ contract CircleFactory is Ownable {
     error TokenImplementationNotSet();
 
     event TokenImplementationUpdated(address);
-    event CircleOfPuffsCreated(string name, string symbol);
+    event CircleOfPuffsCreated(address indexed circle);
 
     constructor(address _tokenImplementation) {
         _initializeOwner(msg.sender);
         tokenImplementation = _tokenImplementation;
     }
 
-    function createCircle(address firstPuffer, string calldata name, string calldata symbol) external {
+    function createCircle(
+        address firstPuffer,
+        string calldata name,
+        string calldata symbol
+    )
+        external
+        returns (address circle)
+    {
         if (tokenImplementation == address(0)) revert TokenImplementationNotSet();
-        ICircleOfPuffs newCircle = ICircleOfPuffs(LibClone.clone(tokenImplementation));
-        newCircle.initialize(firstPuffer, name, symbol);
-        emit CircleOfPuffsCreated(name, symbol);
+        circle = LibClone.clone(tokenImplementation);
+        ICircleOfPuffs(circle).initialize(firstPuffer, name, symbol);
+        emit CircleOfPuffsCreated(address(circle));
     }
 
     function setTokenImplementation(address _tokenImplementation) external onlyOwner {
