@@ -3,9 +3,9 @@ pragma solidity >=0.8.23;
 
 import { ERC721 } from "@solady/tokens/ERC721.sol";
 
-import { ICircleOfPuffs } from "./interfaces/ICircleOfPuffs.sol";
+import { IRotation } from "./interfaces/IRotation.sol";
 
-contract CircleOfPuffs is ERC721, ICircleOfPuffs {
+contract Rotation is ERC721, IRotation {
     bool private initialized;
 
     string private _name;
